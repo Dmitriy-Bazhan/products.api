@@ -20,11 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('/products')->group(function () {
 
-    Route::get('/all', 'ProductController@all');
-    Route::get('/show/{id}', 'ProductController@show');
-    Route::post('/create', 'ProductController@create');
+    Route::resource('products', App\Http\Controllers\ProductController::class);
+
     Route::post('/upload-image/{id}', 'ProductController@uploadImage');
-    Route::get('/remove/{id}', 'ProductController@remove');
 
     Route::get('/get-array/{number}', 'Massive\SimpleMassiveController@getMassive');
 });

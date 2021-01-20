@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
@@ -23,20 +26,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $post = $request->input();
-        // $id = Product::where('id', '<>', 0)->orderBy('id', 'desc')->select('id')->first()->id;
-        $product = new Product;
-        $product->name = $post['name'] . ++$id;
-        $product->price = $post['price'];
-        $product->save();
 
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $file->move('storage/images/', $file->getClientOriginalName());
-            $product->where('id', $id)->update([
-                'image' => $file->getClientOriginalName(),
-            ]);
-        }
     }
 
     /**
@@ -47,7 +37,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = $request->input();
+        // $id = Product::where('id', '<>', 0)->orderBy('id', 'desc')->select('id')->first()->id;
+        $product = new Product;
+        $product->name = $post['name'];
+        $product->price = $post['price'];
+        $product->save();
+        $id = $product->id;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $file->move('storage/images/', $file->getClientOriginalName());
+            $product->where('id', $id)->update([
+                'image' => $file->getClientOriginalName(),
+            ]);
+        }
+
+        return response()->json(['success' => true,], 201);
     }
 
     /**
@@ -58,7 +64,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return ProductResource::collection(Product::find($id));
+        return new ProductResource(Product::find($id));
     }
 
     /**
@@ -69,7 +75,6 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**

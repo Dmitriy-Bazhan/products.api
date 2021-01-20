@@ -1,15 +1,32 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Product;
-use Faker\Generator as Faker;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Product::class, function (Faker $faker) {
-    static $id = 1;
-    return [
-        'name' => 'product_' . $id++,
-        'price' => rand(100, 1000),
-        'image' => 'image_product_' . $id++  . '.jpg',
-    ];
-});
+class ProductFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Product::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        static $id = 1;
+
+        return [
+            'name' => 'product_' . $id,
+            'price' => rand(100,3000),
+            'image' => 'image_product_' . $id,
+        ];
+    }
+}

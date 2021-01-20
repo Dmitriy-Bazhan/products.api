@@ -28,13 +28,13 @@
 })();
 
 async function getAllProducts() {
-    let response = await fetch('http://products.api/api/products/all?page=2');
+    let response = await fetch('http://products.loc/api/products/products');
     if (response.ok) {
         let json = await response.json();
         console.log(json);
     }
 
-    let response2 = await fetch('http://products.api/api/products/show/2');
+    let response2 = await fetch('http://products.loc/api/products/products/5');
     if (response2.ok) {
         let json2 = await response2.json();
         console.log(json2);
@@ -44,7 +44,7 @@ async function getAllProducts() {
         price: 1000,
         image: 'image_product_',
     }
-    let response3 = await fetch('http://products.api/api/products/create', {
+    let response3 = await fetch('http://products.loc/api/products/products', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ async function getAllProducts() {
         console.log(response3);
     }
 
-    let response4 = await fetch('http://products.api/api/products/remove/2');
+    let response4 = await fetch('http://products.loc/api/products/products/2', { method: 'DELETE'});
     if (response4.ok) {
         console.log(response);
     }
