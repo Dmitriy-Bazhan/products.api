@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
@@ -32,17 +31,16 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $post = $request->input();
-        // $id = Product::where('id', '<>', 0)->orderBy('id', 'desc')->select('id')->first()->id;
-        $product = new Product;
-        $product->name = $post['name'];
-        $product->price = $post['price'];
-        $product->save();
+        $product = Product::create([
+            'name' => $request->input('name'),
+            'price' =>  $request->input('price'),
+        ]);
+
         $id = $product->id;
 
         if ($request->hasFile('image')) {
@@ -59,7 +57,7 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -70,7 +68,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -80,8 +78,8 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -98,7 +96,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
